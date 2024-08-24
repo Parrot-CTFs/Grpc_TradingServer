@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package trade;
+
+service TradeService {
+  rpc BuyTrade(TradeRequest) returns (TradeResponse);
+  rpc SellTrade(TradeRequest) returns (TradeResponse);
+  rpc ListStocks(ListStocksRequest) returns (ListStocksResponse);
+  rpc ListTrades(ListTradesRequest) returns (ListTradesResponse);
+  rpc UserBalance(UserBalanceRequest) returns (UserBalanceResponse);
+  rpc GetUserHoldings(UserHoldingsRequest) returns (UserHoldingsResponse);
+  rpc StreamStockPrices(StreamStockPricesRequest)
+      returns (stream StockPriceResponse);
+}
+
+message UserHoldingsRequest { string username = 1; }
+
+message UserHoldingsResponse { repeated UserStock stocks = 1; }
+
+message UserStock {
+  string symbol = 1;
+  int32 quantity = 2;
+}
+
+message Stock {
+  string id = 1;
+  string symbol = 2;
+  string name = 3;
+}
+
+message Trade {
+  string id = 1;
+  string symbol = 2;
+  int32 quantity = 3;
+  double price = 4;
+  string action = 5;
+  string userId = 6;
+  string stockId = 7;
+  string createdAt = 8;
+  User user = 9;
+  Stock stock = 10;
+}
+
+message User {
+  string id = 1;
+  string username = 2;
+  double balance = 3;
+}
+
+message TradeRequest {
+  string id = 1; // Use `id` for replay attacks
+  string symbol = 2;
+  int32 quantity = 3;
+  string username = 4;
+}
+
+message TradeResponse { Trade trade = 1; }
+
+message ListStocksRequest {}
+
+message ListStocksResponse { repeated Stock stocks = 1; }
+
+message ListTradesRequest {}
+
+message ListTradesResponse { repeated Trade trades = 1; }
+
+message UserBalanceRequest { string username = 1; }
+
+message UserBalanceResponse {
+  double balance = 1;
+  string hint = 2; // Optional field for the hint
+  string flag = 3; // Optional field for the flag
+}
+message StreamStockPricesRequest { repeated string symbols = 1; }
+
+message StockPriceResponse {
+  string symbol = 1;
+  double price = 2;
+}
