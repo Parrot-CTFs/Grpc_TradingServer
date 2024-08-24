@@ -122,4 +122,3 @@ This CTF is for educational purposes only. It is intended to simulate a vulnerab
 
 ---
 
-This README file should now provide a comprehensive guide to setting up and running the Wall Street Hijack CTF, as well as a clear explanation of the challenges and objectives.
